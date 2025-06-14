@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Users, GraduationCap, BookOpen, Calendar as CalendarIcon, TrendingUp, AlertCircle, CheckCircle, Clock, Phone, Mail } from 'lucide-react';
 import { sampleStudents, batches, teachers } from '@/data/programData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+import StatisticsSection from './StatisticsSection';
 
 const DashboardOverview = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
