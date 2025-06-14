@@ -11,6 +11,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 const DashboardOverview = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [showStatistics, setShowStatistics] = useState(false);
 
   // Real-time calculations
   const totalStudents = sampleStudents.length;
@@ -63,6 +64,20 @@ const DashboardOverview = () => {
     { type: 'update', message: 'Batch timings updated for next week', time: '1 day ago', icon: Clock }
   ];
 
+  if (showStatistics) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Statistics Overview</h1>
+          <Button onClick={() => setShowStatistics(false)} variant="outline">
+            Back to Dashboard
+          </Button>
+        </div>
+        <StatisticsSection />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
@@ -82,6 +97,13 @@ const DashboardOverview = () => {
               <div className="text-2xl font-bold">{activeBatches}</div>
               <div className="text-blue-200 text-sm">Active Batches</div>
             </div>
+            <Button 
+              onClick={() => setShowStatistics(true)} 
+              variant="secondary"
+              className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+            >
+              View Statistics
+            </Button>
           </div>
         </div>
       </div>
