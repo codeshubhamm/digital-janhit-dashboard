@@ -61,7 +61,7 @@ const RealBatchManagement = () => {
               <Users className="w-5 h-5 text-purple-600" />
               <div>
                 <p className="text-sm text-gray-600">Students</p>
-                <p className="font-medium">{batch.currentStudents} / {batch.maxStudents}</p>
+                <p className="font-medium">{batchStudents.length} / {batch.maxStudents}</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
@@ -184,7 +184,16 @@ const RealBatchManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="batchName">Batch Name *</Label>
-          <Input id="batchName" placeholder="e.g., Advanced Web Development" />
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select batch type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="coding">Coding Batch</SelectItem>
+              <SelectItem value="web-12">Web 1.2 Batch</SelectItem>
+              <SelectItem value="web-11-tally">Web 1.1 + Tally Batch</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="course">Course *</Label>
@@ -195,15 +204,22 @@ const RealBatchManagement = () => {
             <SelectContent>
               <SelectItem value="coding">Programming & Coding</SelectItem>
               <SelectItem value="web-advanced">Web Development Advanced</SelectItem>
-              <SelectItem value="web-basic">Web Development Basic</SelectItem>
-              <SelectItem value="tally">Tally</SelectItem>
-              <SelectItem value="web-tally">Web Development + Tally</SelectItem>
+              <SelectItem value="web-basic-tally">Web Development Basic + Tally</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="timing">Batch Timing *</Label>
-          <Input id="timing" placeholder="e.g., 11:00 AM - 1:00 PM" />
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select timing" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="morning-coding">11:00 AM - 1:00 PM (Coding)</SelectItem>
+              <SelectItem value="afternoon-web">1:00 PM - 3:00 PM (Web 1.2)</SelectItem>
+              <SelectItem value="evening-combined">4:00 PM - 6:00 PM (Web 1.1 + Tally)</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="teacher">Assign Teacher *</Label>
@@ -212,9 +228,9 @@ const RealBatchManagement = () => {
               <SelectValue placeholder="Select teacher" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="T001">Raj Sir</SelectItem>
-              <SelectItem value="T002">Achal Ma'am</SelectItem>
-              <SelectItem value="T003">Chirangiv Sir</SelectItem>
+              <SelectItem value="T001">Raj Sir (Coding, Web 1.2)</SelectItem>
+              <SelectItem value="T002">Achal Ma'am (Web 1.1)</SelectItem>
+              <SelectItem value="T003">Chirangiv Sir (Tally)</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -259,6 +275,42 @@ const RealBatchManagement = () => {
         </Dialog>
       </div>
 
+      {/* Daily Schedule Overview */}
+      <Card className="bg-gradient-to-r from-blue-50 to-indigo-100 border-blue-200">
+        <CardHeader>
+          <CardTitle className="flex items-center text-blue-800">
+            <Clock className="w-5 h-5 mr-2" />
+            Daily Schedule Overview
+          </CardTitle>
+          <CardDescription className="text-blue-600">
+            All 3 batches running daily at Janhit Sanstha Digital Literacy Program
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {batches.map((batch, index) => (
+              <div key={batch.id} className={`p-4 rounded-lg border-2 ${
+                index === 0 ? 'bg-green-50 border-green-200' :
+                index === 1 ? 'bg-yellow-50 border-yellow-200' :
+                'bg-purple-50 border-purple-200'
+              }`}>
+                <div className="text-center">
+                  <h3 className="font-bold text-lg text-gray-800">{batch.name}</h3>
+                  <p className="text-sm text-gray-600 mb-2">{batch.course}</p>
+                  <div className="space-y-1">
+                    <p className="font-semibold text-blue-700">{batch.timing}</p>
+                    <p className="text-sm text-gray-700">👨‍🏫 {batch.teacher}</p>
+                    <p className="text-xs text-gray-600">
+                      {getBatchStudents(batch.id).length} / {batch.maxStudents} students
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Batch Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
@@ -272,7 +324,7 @@ const RealBatchManagement = () => {
           <CardContent className="p-4 text-center">
             <Users className="w-8 h-8 mx-auto mb-2 text-green-500" />
             <p className="text-2xl font-bold text-green-600">
-              {batches.reduce((acc, batch) => acc + batch.currentStudents, 0)}
+              {batches.reduce((acc, batch) => acc + getBatchStudents(batch.id).length, 0)}
             </p>
             <p className="text-sm text-gray-600">Total Students</p>
           </CardContent>
@@ -293,43 +345,11 @@ const RealBatchManagement = () => {
         </Card>
       </div>
 
-      {/* Today's Schedule */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Clock className="w-5 h-5 mr-2" />
-            Today's Schedule
-          </CardTitle>
-          <CardDescription>All batches running today</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {batches.map((batch) => (
-              <div key={batch.id} className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border-l-4 border-l-blue-500">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <GraduationCap className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{batch.name}</h3>
-                    <p className="text-sm text-gray-600">{batch.timing} • {batch.teacher}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="font-medium text-gray-900">{batch.currentStudents} students</p>
-                  <Badge variant="default" className="mt-1">Active</Badge>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
       {/* All Batches */}
       <Card>
         <CardHeader>
           <CardTitle>All Batches</CardTitle>
-          <CardDescription>Complete list of program batches</CardDescription>
+          <CardDescription>Complete list of program batches with detailed information</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-6">
