@@ -133,6 +133,15 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
           <div className="text-center text-xs text-gray-500">
             Secure access for authorized personnel only
           </div>
+          
+          {/* Credits Section */}
+          <div className="border-t pt-4">
+            <div className="text-center">
+              <p className="text-xs text-gray-400 mb-1">Designed & Developed by</p>
+              <p className="text-sm font-semibold text-gray-600">Shubham Gungunwar</p>
+              <p className="text-xs text-gray-400 mt-1">Full Stack Developer</p>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
