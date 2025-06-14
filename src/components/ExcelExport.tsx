@@ -111,7 +111,7 @@ const ExcelExport = () => {
                     id="personal" 
                     checked={includeFields.personal}
                     onCheckedChange={(checked) => 
-                      setIncludeFields(prev => ({ ...prev, personal: checked }))
+                      setIncludeFields(prev => ({ ...prev, personal: Boolean(checked) }))
                     }
                   />
                   <Label htmlFor="personal">Personal Information (Name, Age, Gender, Aadhaar)</Label>
@@ -121,7 +121,7 @@ const ExcelExport = () => {
                     id="contact" 
                     checked={includeFields.contact}
                     onCheckedChange={(checked) => 
-                      setIncludeFields(prev => ({ ...prev, contact: checked }))
+                      setIncludeFields(prev => ({ ...prev, contact: Boolean(checked) }))
                     }
                   />
                   <Label htmlFor="contact">Contact Information (Phone, Address, Guardian)</Label>
@@ -131,7 +131,7 @@ const ExcelExport = () => {
                     id="academic" 
                     checked={includeFields.academic}
                     onCheckedChange={(checked) => 
-                      setIncludeFields(prev => ({ ...prev, academic: checked }))
+                      setIncludeFields(prev => ({ ...prev, academic: Boolean(checked) }))
                     }
                   />
                   <Label htmlFor="academic">Academic Details (Course, Batch, Admission Date)</Label>
@@ -141,7 +141,7 @@ const ExcelExport = () => {
                     id="attendance" 
                     checked={includeFields.attendance}
                     onCheckedChange={(checked) => 
-                      setIncludeFields(prev => ({ ...prev, attendance: checked }))
+                      setIncludeFields(prev => ({ ...prev, attendance: Boolean(checked) }))
                     }
                   />
                   <Label htmlFor="attendance">Attendance Percentage</Label>
@@ -151,7 +151,7 @@ const ExcelExport = () => {
                     id="progress" 
                     checked={includeFields.progress}
                     onCheckedChange={(checked) => 
-                      setIncludeFields(prev => ({ ...prev, progress: checked }))
+                      setIncludeFields(prev => ({ ...prev, progress: Boolean(checked) }))
                     }
                   />
                   <Label htmlFor="progress">Course Progress</Label>
