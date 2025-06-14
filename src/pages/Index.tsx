@@ -17,6 +17,7 @@ import ExcelExport from '@/components/ExcelExport';
 import LoginForm from '@/components/LoginForm';
 import QuickActionButtons from '@/components/QuickActionButtons';
 import { useToast } from '@/hooks/use-toast';
+import { sampleStudents, teachers, batches } from '@/data/programData';
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
