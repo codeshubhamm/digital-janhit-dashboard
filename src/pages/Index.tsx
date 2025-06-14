@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -6,14 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Users, GraduationCap, Calendar, BookOpen, FileText, BarChart3, Settings, LogOut, Plus, Bell, Sun, Moon, Menu, X, Code2 } from 'lucide-react';
+import { Users, GraduationCap, Calendar, BookOpen, FileText, BarChart3, Settings, LogOut, Plus, Bell, Sun, Moon, Menu, X, Code2, Download } from 'lucide-react';
 import DashboardOverview from '@/components/DashboardOverview';
-import StudentManagement from '@/components/StudentManagement';
+import RealStudentManagement from '@/components/RealStudentManagement';
 import TeacherManagement from '@/components/TeacherManagement';
-import BatchManagement from '@/components/BatchManagement';
+import RealBatchManagement from '@/components/RealBatchManagement';
 import AttendanceModule from '@/components/AttendanceModule';
 import DailyReports from '@/components/DailyReports';
 import DocumentsModule from '@/components/DocumentsModule';
+import ExcelExport from '@/components/ExcelExport';
 import LoginForm from '@/components/LoginForm';
 import QuickActionButtons from '@/components/QuickActionButtons';
 import { useToast } from '@/hooks/use-toast';
@@ -33,6 +33,7 @@ const Index = () => {
     { id: 'attendance', label: 'Attendance', icon: Calendar, color: 'text-red-600' },
     { id: 'reports', label: 'Daily Reports', icon: FileText, color: 'text-indigo-600' },
     { id: 'documents', label: 'Documents', icon: FileText, color: 'text-pink-600' },
+    { id: 'export', label: 'Export Data', icon: Download, color: 'text-teal-600' },
   ];
 
   useEffect(() => {
@@ -203,12 +204,13 @@ const Index = () => {
                 {/* Content with smooth transitions */}
                 <div className="animate-fade-in">
                   {activeTab === 'dashboard' && <DashboardOverview />}
-                  {activeTab === 'students' && <StudentManagement />}
+                  {activeTab === 'students' && <RealStudentManagement />}
                   {activeTab === 'teachers' && <TeacherManagement />}
-                  {activeTab === 'batches' && <BatchManagement />}
+                  {activeTab === 'batches' && <RealBatchManagement />}
                   {activeTab === 'attendance' && <AttendanceModule />}
                   {activeTab === 'reports' && <DailyReports />}
                   {activeTab === 'documents' && <DocumentsModule />}
+                  {activeTab === 'export' && <ExcelExport />}
                 </div>
               </div>
             </div>
