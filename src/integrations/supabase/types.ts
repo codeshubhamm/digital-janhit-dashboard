@@ -55,6 +55,20 @@ export type Database = {
             referencedRelation: "students"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "fk_attendance_batch"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_attendance_student"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
         ]
       }
       batches: {
@@ -258,6 +272,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_students_batch"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "batches"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "students_batch_id_fkey"
             columns: ["batch_id"]
             isOneToOne: false
@@ -307,7 +328,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      calculate_attendance_percentage: {
+        Args: { student_uuid: string }
+        Returns: number
+      }
     }
     Enums: {
       attendance_status: "present" | "absent" | "late"
