@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -150,10 +149,10 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
 
   return (
     <div className="space-y-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen p-6">
-      {/* Simplified Header */}
-      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-xl p-6 text-white shadow-lg">
+      {/* Enhanced Header with 3D effects */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-xl p-6 text-white shadow-2xl transform hover:scale-[1.02] transition-all duration-500 hover:shadow-3xl">
         <div className="flex items-center space-x-4 mb-4">
-          <div className="p-2 bg-white/20 rounded-xl">
+          <div className="p-2 bg-white/20 rounded-xl transform hover:rotate-12 hover:scale-110 transition-all duration-300">
             <TrendingUp className="w-8 h-8" />
           </div>
           <div>
@@ -167,22 +166,26 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
             { label: 'Teachers', value: teachers.length, icon: GraduationCap },
             { label: 'Active Batches', value: batches.length, icon: BookOpen },
             { label: 'Attendance Rate', value: `${Math.round(attendanceStats.attendanceRate)}%`, icon: Target }
-          ].map((stat) => (
-            <div key={stat.label} className="p-3 bg-white/10 rounded-lg border border-white/20">
-              <div className="flex items-center justify-between">
+          ].map((stat, index) => (
+            <div 
+              key={stat.label} 
+              className="p-3 bg-white/10 rounded-lg border border-white/20 transform hover:scale-105 hover:bg-white/20 transition-all duration-300 hover:shadow-lg group perspective-1000"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="flex items-center justify-between group-hover:transform group-hover:rotateY-5 transition-transform duration-300">
                 <div>
-                  <div className="text-xl font-bold">{stat.value}</div>
+                  <div className="text-xl font-bold group-hover:text-yellow-300 transition-colors duration-300">{stat.value}</div>
                   <div className="text-white/80 text-sm">{stat.label}</div>
                 </div>
-                <stat.icon className="w-6 h-6 text-white/80" />
+                <stat.icon className="w-6 h-6 text-white/80 group-hover:text-yellow-300 group-hover:scale-110 transition-all duration-300" />
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Simplified Quick Actions */}
-      <Card className="shadow-lg">
+      {/* Enhanced Quick Actions with 3D hover effects */}
+      <Card className="shadow-lg transform hover:scale-[1.01] transition-all duration-300 hover:shadow-2xl">
         <CardHeader>
           <CardTitle className="flex items-center">
             <CheckCircle className="w-5 h-5 mr-2 text-green-600" />
@@ -193,18 +196,19 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { id: 'add-student', label: 'Add Student', icon: Users, color: 'bg-emerald-500 hover:bg-emerald-600' },
-              { id: 'mark-attendance', label: 'Mark Attendance', icon: CheckCircle, color: 'bg-blue-500 hover:bg-blue-600' },
-              { id: 'view-reports', label: 'Daily Reports', icon: BookOpen, color: 'bg-purple-500 hover:bg-purple-600' },
-              { id: 'manage-batches', label: 'Manage Batches', icon: GraduationCap, color: 'bg-orange-500 hover:bg-orange-600' }
-            ].map((action) => (
+              { id: 'add-student', label: 'Add Student', icon: Users, color: 'bg-emerald-500 hover:bg-emerald-600', shadow: 'hover:shadow-emerald-500/50' },
+              { id: 'mark-attendance', label: 'Mark Attendance', icon: CheckCircle, color: 'bg-blue-500 hover:bg-blue-600', shadow: 'hover:shadow-blue-500/50' },
+              { id: 'view-reports', label: 'Daily Reports', icon: BookOpen, color: 'bg-purple-500 hover:bg-purple-600', shadow: 'hover:shadow-purple-500/50' },
+              { id: 'manage-batches', label: 'Manage Batches', icon: GraduationCap, color: 'bg-orange-500 hover:bg-orange-600', shadow: 'hover:shadow-orange-500/50' }
+            ].map((action, index) => (
               <Button
                 key={action.id}
                 onClick={() => handleQuickAction(action.id)}
-                className={`h-20 ${action.color} text-white border-0 rounded-lg transition-colors duration-200`}
+                className={`h-20 ${action.color} ${action.shadow} text-white border-0 rounded-lg transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 hover:shadow-2xl group perspective-1000`}
+                style={{ animationDelay: `${index * 75}ms` }}
               >
-                <div className="flex flex-col items-center space-y-2">
-                  <action.icon className="w-6 h-6" />
+                <div className="flex flex-col items-center space-y-2 group-hover:transform group-hover:rotateX-12 transition-transform duration-300">
+                  <action.icon className="w-6 h-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300" />
                   <span className="text-sm font-medium">{action.label}</span>
                 </div>
               </Button>
@@ -213,11 +217,13 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         </CardContent>
       </Card>
 
-      {/* Interactive Graph Section */}
-      <EnhancedGraphs />
+      {/* Enhanced Interactive Graph Section */}
+      <div className="transform hover:scale-[1.005] transition-all duration-500">
+        <EnhancedGraphs />
+      </div>
 
-      {/* Today's Schedule */}
-      <Card className="shadow-lg">
+      {/* Enhanced Today's Schedule with motion */}
+      <Card className="shadow-lg transform hover:scale-[1.005] transition-all duration-300 hover:shadow-xl">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Clock className="w-5 h-5 mr-2 text-blue-600" />
@@ -234,25 +240,26 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {todaySchedule.map((session) => (
+            {todaySchedule.map((session, index) => (
               <div 
                 key={session.id} 
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-colors duration-200"
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg group"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
                     <Clock className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">{session.title}</h4>
+                    <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">{session.title}</h4>
                     <p className="text-gray-600">{session.time} • {session.room}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Badge variant="outline">
+                  <Badge variant="outline" className="group-hover:border-blue-500 group-hover:text-blue-600 transition-colors duration-300">
                     {session.students} students
                   </Badge>
-                  <Badge variant={session.type === 'coding' ? 'default' : 'secondary'}>
+                  <Badge variant={session.type === 'coding' ? 'default' : 'secondary'} className="group-hover:scale-105 transition-transform duration-300">
                     {session.type}
                   </Badge>
                 </div>
@@ -262,17 +269,17 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         </CardContent>
       </Card>
 
-      {/* Analytics Section */}
+      {/* Enhanced Analytics Section with 3D effects */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="shadow-lg">
+        <Card className="shadow-lg transform hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl group">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Activity className="w-5 h-5 mr-2 text-purple-600" />
+              <Activity className="w-5 h-5 mr-2 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
               Performance Trends
             </CardTitle>
             <CardDescription>Monthly progress and satisfaction metrics</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="group-hover:transform group-hover:scale-[1.01] transition-transform duration-300">
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={performanceData}>
                 <defs>
@@ -292,7 +299,8 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
                   contentStyle={{ 
                     backgroundColor: 'white', 
                     border: '1px solid #e2e8f0', 
-                    borderRadius: '8px' 
+                    borderRadius: '8px',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
                   }} 
                 />
                 <Area type="monotone" dataKey="performance" stroke="#3B82F6" fillOpacity={1} fill="url(#colorPerformance)" />
@@ -302,15 +310,15 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
           </CardContent>
         </Card>
 
-        <Card className="shadow-lg">
+        <Card className="shadow-lg transform hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl group">
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Award className="w-5 h-5 mr-2 text-amber-600" />
+              <Award className="w-5 h-5 mr-2 text-amber-600 group-hover:scale-110 transition-transform duration-300" />
               Course Distribution
             </CardTitle>
             <CardDescription>Student enrollment by course type</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="group-hover:transform group-hover:scale-[1.01] transition-transform duration-300">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -330,7 +338,8 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
                   contentStyle={{ 
                     backgroundColor: 'white', 
                     border: '1px solid #e2e8f0', 
-                    borderRadius: '8px' 
+                    borderRadius: '8px',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
                   }} 
                 />
               </PieChart>
@@ -339,7 +348,7 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         </Card>
       </div>
 
-      {/* Summary Stats */}
+      {/* Enhanced Summary Stats with 3D hover effects */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
           { 
@@ -366,13 +375,17 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
             bg: 'bg-purple-50',
             action: true
           }
-        ].map((stat) => (
-          <Card key={stat.title} className={`shadow-lg ${stat.bg}`}>
-            <CardContent className="p-6">
+        ].map((stat, index) => (
+          <Card 
+            key={stat.title} 
+            className={`shadow-lg ${stat.bg} transform hover:scale-[1.05] hover:-translate-y-2 transition-all duration-300 hover:shadow-2xl group perspective-1000`}
+            style={{ animationDelay: `${index * 150}ms` }}
+          >
+            <CardContent className="p-6 group-hover:transform group-hover:rotateY-5 transition-transform duration-300">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
-                  <p className={`text-2xl font-bold ${stat.color}`}>
+                  <p className={`text-2xl font-bold ${stat.color} group-hover:scale-110 transition-transform duration-300`}>
                     {stat.value}
                   </p>
                   {stat.percentage && (
@@ -382,7 +395,7 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
                     <p className="text-xs text-gray-500 mt-1">{stat.subtext}</p>
                   )}
                 </div>
-                <div className="p-3 rounded-lg bg-white/50">
+                <div className="p-3 rounded-lg bg-white/50 group-hover:bg-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
                   <stat.icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
               </div>
@@ -390,7 +403,7 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
                 <Button 
                   onClick={handleAddQuickReport}
                   size="sm" 
-                  className="mt-3 w-full bg-purple-500 hover:bg-purple-600"
+                  className="mt-3 w-full bg-purple-500 hover:bg-purple-600 transform hover:scale-105 transition-all duration-300"
                 >
                   Add Quick Report
                 </Button>
@@ -400,8 +413,8 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         ))}
       </div>
 
-      {/* Recent Activity */}
-      <Card className="shadow-lg">
+      {/* Enhanced Recent Activity with motion */}
+      <Card className="shadow-lg transform hover:scale-[1.005] transition-all duration-300 hover:shadow-xl">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Calendar className="w-5 h-5 mr-2 text-indigo-600" />
@@ -411,19 +424,20 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {reports.slice(0, 5).map((report) => (
+            {reports.slice(0, 5).map((report, index) => (
               <div 
                 key={report.id} 
-                className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-colors duration-200"
+                className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.01] hover:shadow-md group"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center group-hover:bg-indigo-600 group-hover:scale-110 transition-all duration-300">
                   <Calendar className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-gray-900">{report.title}</p>
+                  <p className="font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-300">{report.title}</p>
                   <p className="text-sm text-gray-600">{report.description}</p>
                 </div>
-                <Badge variant="outline">
+                <Badge variant="outline" className="group-hover:border-indigo-500 group-hover:text-indigo-600 transition-colors duration-300">
                   {report.date}
                 </Badge>
               </div>
