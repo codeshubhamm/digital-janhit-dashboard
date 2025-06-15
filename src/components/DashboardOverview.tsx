@@ -8,9 +8,13 @@ import { Users, GraduationCap, BookOpen, TrendingUp, AlertCircle, CheckCircle, C
 import { sampleStudents, batches, teachers } from '@/data/programData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import StatisticsSection from './StatisticsSection';
+import EnhancedGraphs from './EnhancedGraphs';
+import { useToast } from '@/hooks/use-toast';
 
 const DashboardOverview = () => {
   const [showStatistics, setShowStatistics] = useState(false);
+  const [showGraphs, setShowGraphs] = useState(false);
+  const { toast } = useToast();
 
   // Quick calculations
   const totalStudents = sampleStudents.length;
@@ -49,6 +53,76 @@ const DashboardOverview = () => {
     { type: 'update', message: 'Batch timings updated', time: '1 day ago', icon: Clock, color: 'text-gray-600' }
   ];
 
+  // Handle quick actions
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'students':
+        toast({
+          title: "Add Student",
+          description: "Opening student registration form...",
+        });
+        // Navigate to student management
+        break;
+      case 'batches':
+        toast({
+          title: "Create Batch",
+          description: "Opening batch creation form...",
+        });
+        // Navigate to batch management
+        break;
+      case 'attendance':
+        toast({
+          title: "Mark Attendance",
+          description: "Opening attendance marking interface...",
+        });
+        // Navigate to attendance module
+        break;
+      case 'reports':
+        toast({
+          title: "Generate Report",
+          description: "Opening report generation tool...",
+        });
+        // Navigate to reports
+        break;
+      default:
+        toast({
+          title: "Feature Coming Soon",
+          description: "This feature will be available in the next update.",
+        });
+    }
+  };
+
+  // Handle schedule actions
+  const handleScheduleAction = (scheduleIndex: number) => {
+    const schedule = todaySchedule[scheduleIndex];
+    toast({
+      title: `${schedule.batch}`,
+      description: `${schedule.teacher} • ${schedule.students} students • ${schedule.time}`,
+    });
+  };
+
+  // Handle activity click
+  const handleActivityClick = (activity: any) => {
+    toast({
+      title: activity.type.charAt(0).toUpperCase() + activity.type.slice(1),
+      description: activity.message,
+    });
+  };
+
+  if (showGraphs) {
+    return (
+      <div className="space-y-6 animate-fade-in">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Interactive Analytics</h1>
+          <Button onClick={() => setShowGraphs(false)} variant="outline" className="hover:scale-105 transition-all duration-200">
+            Back to Dashboard
+          </Button>
+        </div>
+        <EnhancedGraphs />
+      </div>
+    );
+  }
+
   if (showStatistics) {
     return (
       <div className="space-y-6 animate-fade-in">
@@ -84,14 +158,22 @@ const DashboardOverview = () => {
               <span>{new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
             </p>
           </div>
-          <div className="mt-6 md:mt-0">
+          <div className="mt-6 md:mt-0 flex flex-col sm:flex-row gap-3">
+            <Button 
+              onClick={() => setShowGraphs(true)} 
+              variant="secondary"
+              className="bg-white/20 hover:bg-white/30 text-white border-white/30 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm"
+            >
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Interactive Graphs
+            </Button>
             <Button 
               onClick={() => setShowStatistics(true)} 
               variant="secondary"
               className="bg-white/20 hover:bg-white/30 text-white border-white/30 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm"
             >
-              <BarChart3 className="w-4 h-4 mr-2" />
-              View Detailed Analytics
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Detailed Analytics
             </Button>
           </div>
         </div>
@@ -182,6 +264,7 @@ const DashboardOverview = () => {
                 <Button
                   key={index}
                   variant="outline"
+                  onClick={() => handleQuickAction(action.action)}
                   className="h-24 flex-col space-y-3 hover:shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 group border-2 hover:border-blue-300"
                   style={{ animationDelay: `${index * 75}ms` }}
                 >
@@ -213,6 +296,7 @@ const DashboardOverview = () => {
               {todaySchedule.map((schedule, index) => (
                 <div 
                   key={index} 
+                  onClick={() => handleScheduleAction(index)}
                   className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 hover:scale-105 hover:shadow-md group cursor-pointer"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -264,6 +348,7 @@ const DashboardOverview = () => {
                 return (
                   <div 
                     key={index} 
+                    onClick={() => handleActivityClick(activity)}
                     className="flex items-start space-x-3 p-3 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 rounded-xl transition-all duration-300 hover:scale-105 cursor-pointer group"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
