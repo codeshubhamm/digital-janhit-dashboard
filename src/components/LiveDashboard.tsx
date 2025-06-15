@@ -33,7 +33,6 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
   });
 
   const [todaySchedule, setTodaySchedule] = useState([]);
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -150,79 +149,63 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
   }
 
   return (
-    <div className="space-y-8 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen p-6">
-      {/* Enhanced Header with 3D Effects */}
-      <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-3xl p-8 text-white overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 backdrop-blur-sm"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-48 translate-x-48 blur-3xl"></div>
-        <div className="relative z-10">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm">
-              <TrendingUp className="w-10 h-10" />
-            </div>
-            <div>
-              <h2 className="text-3xl font-bold">Digital Literacy Dashboard</h2>
-              <p className="text-blue-100 text-lg">Real-time insights and analytics</p>
-            </div>
+    <div className="space-y-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen p-6">
+      {/* Simplified Header */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-xl p-6 text-white shadow-lg">
+        <div className="flex items-center space-x-4 mb-4">
+          <div className="p-2 bg-white/20 rounded-xl">
+            <TrendingUp className="w-8 h-8" />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { label: 'Total Students', value: students.length, icon: Users, color: 'from-emerald-400 to-cyan-400' },
-              { label: 'Teachers', value: teachers.length, icon: GraduationCap, color: 'from-purple-400 to-pink-400' },
-              { label: 'Active Batches', value: batches.length, icon: BookOpen, color: 'from-amber-400 to-orange-400' },
-              { label: 'Attendance Rate', value: `${Math.round(attendanceStats.attendanceRate)}%`, icon: Target, color: 'from-rose-400 to-red-400' }
-            ].map((stat, index) => (
-              <div
-                key={stat.label}
-                className="group relative p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300 hover:scale-110 hover:rotate-1"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <div className="text-white/80 text-sm">{stat.label}</div>
-                  </div>
-                  <div className={`p-2 bg-gradient-to-r ${stat.color} rounded-xl group-hover:scale-110 transition-transform duration-300`}>
-                    <stat.icon className="w-6 h-6 text-white" />
-                  </div>
+          <div>
+            <h2 className="text-2xl font-bold">Digital Literacy Dashboard</h2>
+            <p className="text-blue-100">Real-time insights and analytics</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: 'Total Students', value: students.length, icon: Users },
+            { label: 'Teachers', value: teachers.length, icon: GraduationCap },
+            { label: 'Active Batches', value: batches.length, icon: BookOpen },
+            { label: 'Attendance Rate', value: `${Math.round(attendanceStats.attendanceRate)}%`, icon: Target }
+          ].map((stat) => (
+            <div key={stat.label} className="p-3 bg-white/10 rounded-lg border border-white/20">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xl font-bold">{stat.value}</div>
+                  <div className="text-white/80 text-sm">{stat.label}</div>
                 </div>
+                <stat.icon className="w-6 h-6 text-white/80" />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Enhanced Quick Actions with 3D Hover Effects */}
-      <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+      {/* Simplified Quick Actions */}
+      <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center text-2xl">
-            <CheckCircle className="w-6 h-6 mr-3 text-green-600" />
+          <CardTitle className="flex items-center">
+            <CheckCircle className="w-5 h-5 mr-2 text-green-600" />
             Quick Actions
           </CardTitle>
-          <CardDescription>Navigate to different sections with enhanced interactions</CardDescription>
+          <CardDescription>Navigate to different sections</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { id: 'add-student', label: 'Add Student', icon: Users, gradient: 'from-emerald-500 to-teal-600', shadow: 'shadow-emerald-500/25' },
-              { id: 'mark-attendance', label: 'Mark Attendance', icon: CheckCircle, gradient: 'from-blue-500 to-cyan-600', shadow: 'shadow-blue-500/25' },
-              { id: 'view-reports', label: 'Daily Reports', icon: BookOpen, gradient: 'from-purple-500 to-violet-600', shadow: 'shadow-purple-500/25' },
-              { id: 'manage-batches', label: 'Manage Batches', icon: GraduationCap, gradient: 'from-orange-500 to-red-600', shadow: 'shadow-orange-500/25' }
+              { id: 'add-student', label: 'Add Student', icon: Users, color: 'bg-emerald-500 hover:bg-emerald-600' },
+              { id: 'mark-attendance', label: 'Mark Attendance', icon: CheckCircle, color: 'bg-blue-500 hover:bg-blue-600' },
+              { id: 'view-reports', label: 'Daily Reports', icon: BookOpen, color: 'bg-purple-500 hover:bg-purple-600' },
+              { id: 'manage-batches', label: 'Manage Batches', icon: GraduationCap, color: 'bg-orange-500 hover:bg-orange-600' }
             ].map((action) => (
               <Button
                 key={action.id}
                 onClick={() => handleQuickAction(action.id)}
-                className={`group relative h-24 bg-gradient-to-br ${action.gradient} hover:scale-110 hover:rotate-2 transform transition-all duration-300 ${action.shadow} hover:shadow-2xl border-0 rounded-2xl overflow-hidden`}
-                onMouseEnter={() => setHoveredCard(action.id)}
-                onMouseLeave={() => setHoveredCard(null)}
+                className={`h-20 ${action.color} text-white border-0 rounded-lg transition-colors duration-200`}
               >
-                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10 flex flex-col items-center justify-center space-y-2 text-white">
-                  <action.icon className="w-8 h-8 group-hover:scale-125 transition-transform duration-300" />
-                  <span className="font-semibold text-sm">{action.label}</span>
-                  {hoveredCard === action.id && (
-                    <ArrowRight className="w-4 h-4 animate-pulse" />
-                  )}
+                <div className="flex flex-col items-center space-y-2">
+                  <action.icon className="w-6 h-6" />
+                  <span className="text-sm font-medium">{action.label}</span>
                 </div>
               </Button>
             ))}
@@ -233,14 +216,14 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
       {/* Interactive Graph Section */}
       <EnhancedGraphs />
 
-      {/* Enhanced Today's Schedule */}
-      <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+      {/* Today's Schedule */}
+      <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center text-2xl">
-            <Clock className="w-6 h-6 mr-3 text-blue-600" />
+          <CardTitle className="flex items-center">
+            <Clock className="w-5 h-5 mr-2 text-blue-600" />
             Today's Schedule
           </CardTitle>
-          <CardDescription className="text-lg">
+          <CardDescription>
             {new Date().toLocaleDateString('en-US', { 
               weekday: 'long', 
               year: 'numeric', 
@@ -250,31 +233,26 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {todaySchedule.map((session, index) => (
+          <div className="space-y-3">
+            {todaySchedule.map((session) => (
               <div 
                 key={session.id} 
-                className="group flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl border border-gray-100 hover:border-blue-200 hover:shadow-lg hover:scale-[1.02] transform transition-all duration-300"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-colors duration-200"
               >
-                <div className="flex items-center space-x-6">
-                  <div className="relative w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Clock className="w-8 h-8 text-white" />
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg text-gray-900">{session.title}</h4>
-                    <p className="text-gray-600 font-medium">{session.time} • {session.room}</p>
+                    <h4 className="font-semibold text-gray-900">{session.title}</h4>
+                    <p className="text-gray-600">{session.time} • {session.room}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-4">
-                  <Badge variant="outline" className="px-3 py-1 text-sm font-semibold">
+                <div className="flex items-center space-x-2">
+                  <Badge variant="outline">
                     {session.students} students
                   </Badge>
-                  <Badge 
-                    variant={session.type === 'coding' ? 'default' : 'secondary'}
-                    className="px-3 py-1 text-sm font-semibold"
-                  >
+                  <Badge variant={session.type === 'coding' ? 'default' : 'secondary'}>
                     {session.type}
                   </Badge>
                 </div>
@@ -284,11 +262,11 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         </CardContent>
       </Card>
 
-      {/* Enhanced Analytics with Performance Trends */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+      {/* Analytics Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center text-xl">
+            <CardTitle className="flex items-center">
               <Activity className="w-5 h-5 mr-2 text-purple-600" />
               Performance Trends
             </CardTitle>
@@ -312,10 +290,9 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
                 <YAxis stroke="#64748b" />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'rgba(255,255,255,0.95)', 
-                    border: 'none', 
-                    borderRadius: '12px', 
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.1)' 
+                    backgroundColor: 'white', 
+                    border: '1px solid #e2e8f0', 
+                    borderRadius: '8px' 
                   }} 
                 />
                 <Area type="monotone" dataKey="performance" stroke="#3B82F6" fillOpacity={1} fill="url(#colorPerformance)" />
@@ -325,9 +302,9 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
           </CardContent>
         </Card>
 
-        <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+        <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center text-xl">
+            <CardTitle className="flex items-center">
               <Award className="w-5 h-5 mr-2 text-amber-600" />
               Course Distribution
             </CardTitle>
@@ -351,10 +328,9 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
                 </Pie>
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'rgba(255,255,255,0.95)', 
-                    border: 'none', 
-                    borderRadius: '12px', 
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.1)' 
+                    backgroundColor: 'white', 
+                    border: '1px solid #e2e8f0', 
+                    borderRadius: '8px' 
                   }} 
                 />
               </PieChart>
@@ -363,15 +339,15 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         </Card>
       </div>
 
-      {/* Enhanced Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Summary Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
           { 
             title: 'Active Students', 
             value: students.filter(s => s.is_active).length, 
             icon: Users, 
             color: 'text-emerald-600', 
-            bg: 'from-emerald-50 to-teal-50',
+            bg: 'bg-emerald-50',
             percentage: Math.round((students.filter(s => s.is_active).length / students.length) * 100)
           },
           { 
@@ -379,7 +355,7 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
             value: `${Math.round(attendanceStats.attendanceRate)}%`, 
             icon: CheckCircle, 
             color: 'text-blue-600', 
-            bg: 'from-blue-50 to-cyan-50',
+            bg: 'bg-blue-50',
             subtext: `${attendanceStats.totalRecords} records`
           },
           { 
@@ -387,38 +363,34 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
             value: reports.length, 
             icon: BookOpen, 
             color: 'text-purple-600', 
-            bg: 'from-purple-50 to-violet-50',
+            bg: 'bg-purple-50',
             action: true
           }
-        ].map((stat, index) => (
-          <Card 
-            key={stat.title}
-            className={`group shadow-xl border-0 bg-gradient-to-br ${stat.bg} hover:scale-105 transform transition-all duration-500 cursor-pointer`}
-            style={{ animationDelay: `${index * 150}ms` }}
-          >
-            <CardContent className="p-8">
+        ].map((stat) => (
+          <Card key={stat.title} className={`shadow-lg ${stat.bg}`}>
+            <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-2">{stat.title}</p>
-                  <p className={`text-3xl font-bold ${stat.color} group-hover:scale-110 transition-transform duration-300`}>
+                  <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
+                  <p className={`text-2xl font-bold ${stat.color}`}>
                     {stat.value}
                   </p>
                   {stat.percentage && (
-                    <p className="text-xs text-gray-500 mt-2">{stat.percentage}% of total</p>
+                    <p className="text-xs text-gray-500 mt-1">{stat.percentage}% of total</p>
                   )}
                   {stat.subtext && (
-                    <p className="text-xs text-gray-500 mt-2">{stat.subtext}</p>
+                    <p className="text-xs text-gray-500 mt-1">{stat.subtext}</p>
                   )}
                 </div>
-                <div className={`p-4 rounded-2xl bg-white/50 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300`}>
-                  <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                <div className="p-3 rounded-lg bg-white/50">
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
               </div>
               {stat.action && (
                 <Button 
                   onClick={handleAddQuickReport}
                   size="sm" 
-                  className="mt-4 w-full bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 border-0 rounded-xl"
+                  className="mt-3 w-full bg-purple-500 hover:bg-purple-600"
                 >
                   Add Quick Report
                 </Button>
@@ -428,33 +400,30 @@ const LiveDashboard = ({ onNavigate }: LiveDashboardProps) => {
         ))}
       </div>
 
-      {/* Enhanced Recent Activity */}
-      <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+      {/* Recent Activity */}
+      <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center text-2xl">
-            <Calendar className="w-6 h-6 mr-3 text-indigo-600" />
+          <CardTitle className="flex items-center">
+            <Calendar className="w-5 h-5 mr-2 text-indigo-600" />
             Recent Activity
           </CardTitle>
-          <CardDescription className="text-lg">Latest updates and changes</CardDescription>
+          <CardDescription>Latest updates and changes</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {reports.slice(0, 5).map((report, index) => (
+          <div className="space-y-3">
+            {reports.slice(0, 5).map((report) => (
               <div 
                 key={report.id} 
-                className="group flex items-center space-x-4 p-4 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl border border-gray-100 hover:border-indigo-200 hover:shadow-md hover:scale-[1.01] transition-all duration-300"
-                style={{ animationDelay: `${index * 75}ms` }}
+                className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-colors duration-200"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Calendar className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
+                  <Calendar className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors duration-300">
-                    {report.title}
-                  </p>
+                  <p className="font-medium text-gray-900">{report.title}</p>
                   <p className="text-sm text-gray-600">{report.description}</p>
                 </div>
-                <Badge variant="outline" className="px-3 py-1 font-medium">
+                <Badge variant="outline">
                   {report.date}
                 </Badge>
               </div>
