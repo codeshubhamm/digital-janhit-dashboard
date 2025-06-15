@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Users, GraduationCap, BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, Phone, Mail, Plus, Eye, Edit, BarChart3, Sparkles, Zap, Target } from 'lucide-react';
+import { Users, GraduationCap, BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, Phone, Mail, Plus, Eye, Edit, BarChart3, Sparkles, Zap, Target, Calendar } from 'lucide-react';
 import { sampleStudents, batches, teachers } from '@/data/programData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import StatisticsSection from './StatisticsSection';
