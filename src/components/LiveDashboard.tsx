@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -100,14 +99,19 @@ const LiveDashboard = () => {
       color: '#3B82F6'
     },
     { 
-      name: 'Web Dev Advanced', 
-      value: students.filter(s => s.course_enrolled === 'web_development_advanced').length,
+      name: 'Web Development', 
+      value: students.filter(s => s.course_enrolled === 'web_development').length,
       color: '#10B981'
     },
     { 
-      name: 'Web Dev Basic + Tally', 
-      value: students.filter(s => s.course_enrolled === 'web_development_basic_tally').length,
+      name: 'Tally', 
+      value: students.filter(s => s.course_enrolled === 'tally').length,
       color: '#F59E0B'
+    },
+    { 
+      name: 'Web 1:1', 
+      value: students.filter(s => s.course_enrolled === 'web_1_1').length,
+      color: '#8B5CF6'
     }
   ];
 
