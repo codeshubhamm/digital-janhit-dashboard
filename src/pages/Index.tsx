@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
 // Import all components
-import DashboardOverviewPage from '@/components/DashboardOverviewPage';
+import DashboardOverview from '@/components/DashboardOverview';
 import RealStudentManagement from '@/components/RealStudentManagement';
 import StudentManagement from '@/components/StudentManagement';
 import TeacherManagement from '@/components/TeacherManagement';
@@ -39,7 +39,7 @@ const Index = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <DashboardOverviewPage />;
+        return <DashboardOverview />;
       case 'students':
         return <RealStudentManagement />;
       case 'teachers':
@@ -63,14 +63,9 @@ const Index = () => {
           </Card>
         );
       default:
-        return <DashboardOverviewPage />;
+        return <DashboardOverview />;
     }
   };
-
-  // If dashboard is selected, render it fullscreen without sidebar
-  if (activeTab === 'dashboard') {
-    return <DashboardOverviewPage />;
-  }
 
   return (
     <SidebarProvider>
@@ -169,6 +164,7 @@ const Index = () => {
                 <SidebarTrigger className="hover:bg-blue-50 transition-colors duration-200 rounded-xl p-3" />
                 <div className="flex items-center space-x-4">
                   <div className={`w-3 h-3 rounded-full ${
+                    activeTab === 'dashboard' ? 'bg-blue-500' :
                     activeTab === 'students' ? 'bg-emerald-500' :
                     activeTab === 'teachers' ? 'bg-purple-500' :
                     activeTab === 'batches' ? 'bg-orange-500' :
@@ -182,6 +178,7 @@ const Index = () => {
                       {menuItems.find(item => item.id === activeTab)?.label}
                     </h1>
                     <p className="text-sm text-gray-600 font-medium leading-relaxed">
+                      {activeTab === 'dashboard' && 'Welcome to your digital literacy program dashboard'}
                       {activeTab === 'students' && 'Manage student information and enrollment records'}
                       {activeTab === 'teachers' && 'Manage teaching staff and their assignments'}
                       {activeTab === 'batches' && 'Organize and schedule learning batches efficiently'}
