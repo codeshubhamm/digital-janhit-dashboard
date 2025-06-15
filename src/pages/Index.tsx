@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
 // Import all components
-import LiveDashboard from '@/components/LiveDashboard';
+import DashboardOverviewPage from '@/components/DashboardOverviewPage';
 import RealStudentManagement from '@/components/RealStudentManagement';
 import StudentManagement from '@/components/StudentManagement';
 import TeacherManagement from '@/components/TeacherManagement';
@@ -39,7 +39,7 @@ const Index = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <LiveDashboard onNavigate={handleNavigation} />;
+        return <DashboardOverviewPage />;
       case 'students':
         return <RealStudentManagement />;
       case 'teachers':
@@ -63,9 +63,14 @@ const Index = () => {
           </Card>
         );
       default:
-        return <LiveDashboard onNavigate={handleNavigation} />;
+        return <DashboardOverviewPage />;
     }
   };
+
+  // If dashboard is selected, render it fullscreen without sidebar
+  if (activeTab === 'dashboard') {
+    return <DashboardOverviewPage />;
+  }
 
   return (
     <SidebarProvider>
@@ -89,7 +94,7 @@ const Index = () => {
             </div>
 
             <SidebarGroup>
-              <SidebarGroupLabel className="text-gray-700 font-bold text-xs uppercase tracking-wider px-6 py-3 letter-spacing-wide">
+              <SidebarGroupLabel className="text-gray-700 font-bold text-xs uppercase tracking-wider px-6 py-3">
                 Navigation Menu
               </SidebarGroupLabel>
               <SidebarGroupContent className="px-3">
@@ -164,7 +169,6 @@ const Index = () => {
                 <SidebarTrigger className="hover:bg-blue-50 transition-colors duration-200 rounded-xl p-3" />
                 <div className="flex items-center space-x-4">
                   <div className={`w-3 h-3 rounded-full ${
-                    activeTab === 'dashboard' ? 'bg-blue-500' :
                     activeTab === 'students' ? 'bg-emerald-500' :
                     activeTab === 'teachers' ? 'bg-purple-500' :
                     activeTab === 'batches' ? 'bg-orange-500' :
@@ -175,10 +179,9 @@ const Index = () => {
                   }`}></div>
                   <div className="space-y-1">
                     <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight">
-                      {activeTab === 'dashboard' ? 'Welcome back, Bharat Sir!' : menuItems.find(item => item.id === activeTab)?.label}
+                      {menuItems.find(item => item.id === activeTab)?.label}
                     </h1>
                     <p className="text-sm text-gray-600 font-medium leading-relaxed">
-                      {activeTab === 'dashboard' && 'Overview of your digital literacy program performance'}
                       {activeTab === 'students' && 'Manage student information and enrollment records'}
                       {activeTab === 'teachers' && 'Manage teaching staff and their assignments'}
                       {activeTab === 'batches' && 'Organize and schedule learning batches efficiently'}
