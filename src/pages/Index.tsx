@@ -30,10 +30,14 @@ const Index = () => {
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
+  const handleNavigation = (section: string) => {
+    setActiveTab(section);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <LiveDashboard />;
+        return <LiveDashboard onNavigate={handleNavigation} />;
       case 'students':
         return <RealStudentManagement />;
       case 'teachers':
@@ -57,21 +61,23 @@ const Index = () => {
           </Card>
         );
       default:
-        return <LiveDashboard />;
+        return <LiveDashboard onNavigate={handleNavigation} />;
     }
   };
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-50">
-        <Sidebar>
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+        <Sidebar className="border-r border-white/20 bg-white/80 backdrop-blur-md">
           <SidebarContent>
-            <div className="p-4">
-              <h2 className="text-lg font-semibold text-gray-900">Digital Literacy</h2>
-              <p className="text-sm text-gray-600">Admin Dashboard</p>
+            <div className="p-6 border-b border-white/20">
+              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Digital Literacy
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">Admin Dashboard</p>
             </div>
             <SidebarGroup>
-              <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-gray-500 font-semibold">Navigation</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {menuItems.map((item) => (
@@ -79,9 +85,25 @@ const Index = () => {
                       <SidebarMenuButton
                         onClick={() => setActiveTab(item.id)}
                         isActive={activeTab === item.id}
+                        className={`group relative overflow-hidden transition-all duration-300 hover:scale-105 ${
+                          activeTab === item.id 
+                            ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg' 
+                            : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50'
+                        }`}
                       >
-                        <item.icon className="w-4 h-4" />
-                        <span>{item.label}</span>
+                        <div className="flex items-center space-x-3 relative z-10">
+                          <item.icon className={`w-5 h-5 transition-transform duration-300 group-hover:scale-110 ${
+                            activeTab === item.id ? 'text-white' : 'text-gray-600'
+                          }`} />
+                          <span className={`font-medium ${
+                            activeTab === item.id ? 'text-white' : 'text-gray-700'
+                          }`}>
+                            {item.label}
+                          </span>
+                        </div>
+                        {activeTab === item.id && (
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20"></div>
+                        )}
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
@@ -93,26 +115,40 @@ const Index = () => {
         
         <main className="flex-1 overflow-hidden">
           <div className="h-full flex flex-col">
-            <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <header className="bg-white/80 backdrop-blur-md border-b border-white/20 px-6 py-4 flex items-center justify-between shadow-sm">
               <div className="flex items-center space-x-4">
-                <SidebarTrigger />
-                <h1 className="text-2xl font-bold text-gray-900">
-                  {menuItems.find(item => item.id === activeTab)?.label}
-                </h1>
+                <SidebarTrigger className="hover:bg-blue-50 transition-colors duration-200" />
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    {menuItems.find(item => item.id === activeTab)?.label}
+                  </h1>
+                  <p className="text-sm text-gray-600">
+                    {activeTab === 'dashboard' && 'Overview of your digital literacy program'}
+                    {activeTab === 'students' && 'Manage student information and enrollment'}
+                    {activeTab === 'teachers' && 'Manage teaching staff and assignments'}
+                    {activeTab === 'batches' && 'Organize and schedule learning batches'}
+                    {activeTab === 'attendance' && 'Track and manage student attendance'}
+                    {activeTab === 'analytics' && 'View detailed analytics and reports'}
+                    {activeTab === 'reports' && 'Daily reports and task management'}
+                    {activeTab === 'settings' && 'Application settings and configuration'}
+                  </p>
+                </div>
               </div>
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-600">
-                  {new Date().toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}
-                </span>
+                <div className="px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full">
+                  <span className="text-sm font-medium text-gray-700">
+                    {new Date().toLocaleDateString('en-US', { 
+                      weekday: 'long', 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </span>
+                </div>
               </div>
             </header>
             
-            <div className="flex-1 overflow-auto p-6">
+            <div className="flex-1 overflow-auto">
               {renderContent()}
             </div>
           </div>
