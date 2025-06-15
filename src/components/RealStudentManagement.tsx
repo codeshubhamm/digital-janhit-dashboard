@@ -10,18 +10,38 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, Search, Filter, Edit, Eye, Download, Upload, User, Phone, MapPin, FileUp } from 'lucide-react';
-import { useStudents } from '@/hooks/useStudents';
+import { useStudents, Student } from '@/hooks/useStudents';
 import { useBatches } from '@/hooks/useBatches';
 import { useExcelUtils } from '@/hooks/useExcelUtils';
 import { useToast } from '@/hooks/use-toast';
 
+interface StudentFormData {
+  name: string;
+  age?: number;
+  gender?: 'male' | 'female' | 'other';
+  contact_phone?: string;
+  aadhaar: string;
+  guardian_name?: string;
+  guardian_phone?: string;
+  address?: string;
+  course_enrolled: 'coding' | 'web_development' | 'tally' | 'web_1_1';
+  batch_id?: string;
+  admission_date?: string;
+  is_active?: boolean;
+}
+
 const RealStudentManagement = () => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCourse, setFilterCourse] = useState('all');
   const [filterBatch, setFilterBatch] = useState('all');
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<StudentFormData>({
+    name: '',
+    aadhaar: '',
+    course_enrolled: 'coding',
+    is_active: true
+  });
 
   const { students, loading, addStudent, updateStudent, deleteStudent, getStudentAttendancePercentage } = useStudents();
   const { batches } = useBatches();
@@ -42,7 +62,12 @@ const RealStudentManagement = () => {
     try {
       await addStudent(formData);
       setShowAddForm(false);
-      setFormData({});
+      setFormData({
+        name: '',
+        aadhaar: '',
+        course_enrolled: 'coding',
+        is_active: true
+      });
     } catch (error) {
       console.error('Error adding student:', error);
     }
@@ -87,12 +112,12 @@ const RealStudentManagement = () => {
             type="number" 
             placeholder="Enter age"
             value={formData.age || ''}
-            onChange={(e) => setFormData({...formData, age: parseInt(e.target.value)})}
+            onChange={(e) => setFormData({...formData, age: parseInt(e.target.value) || undefined})}
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="gender">Gender</Label>
-          <Select value={formData.gender} onValueChange={(value) => setFormData({...formData, gender: value})}>
+          <Select value={formData.gender} onValueChange={(value: 'male' | 'female' | 'other') => setFormData({...formData, gender: value})}>
             <SelectTrigger>
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
@@ -146,14 +171,15 @@ const RealStudentManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="course">Course *</Label>
-          <Select value={formData.course_enrolled} onValueChange={(value) => setFormData({...formData, course_enrolled: value})}>
+          <Select value={formData.course_enrolled} onValueChange={(value: 'coding' | 'web_development' | 'tally' | 'web_1_1') => setFormData({...formData, course_enrolled: value})}>
             <SelectTrigger>
               <SelectValue placeholder="Select course" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="coding">Programming & Coding</SelectItem>
-              <SelectItem value="web_development_advanced">Web Development Advanced</SelectItem>
-              <SelectItem value="web_development_basic_tally">Web Development Basic + Tally</SelectItem>
+              <SelectItem value="web_development">Web Development</SelectItem>
+              <SelectItem value="web_1_1">Web Development 1.1</SelectItem>
+              <SelectItem value="tally">Tally</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -240,8 +266,9 @@ const RealStudentManagement = () => {
               <SelectContent>
                 <SelectItem value="all">All Courses</SelectItem>
                 <SelectItem value="coding">Programming & Coding</SelectItem>
-                <SelectItem value="web_development_advanced">Web Development Advanced</SelectItem>
-                <SelectItem value="web_development_basic_tally">Web Development Basic + Tally</SelectItem>
+                <SelectItem value="web_development">Web Development</SelectItem>
+                <SelectItem value="web_1_1">Web Development 1.1</SelectItem>
+                <SelectItem value="tally">Tally</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filterBatch} onValueChange={setFilterBatch}>

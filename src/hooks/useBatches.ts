@@ -6,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 export interface Batch {
   id: string;
   name: string;
-  batch_type: 'coding' | 'web_12' | 'web_11_tally';
+  batch_type: 'coding_batch' | 'web_dev_1_2' | 'web_1_1_tally';
   start_time: string;
   end_time: string;
   teacher_id?: string;

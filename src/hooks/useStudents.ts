@@ -13,7 +13,7 @@ export interface Student {
   guardian_name?: string;
   guardian_phone?: string;
   address?: string;
-  course_enrolled: 'coding' | 'web_development_advanced' | 'web_development_basic_tally';
+  course_enrolled: 'coding' | 'web_development' | 'tally' | 'web_1_1';
   batch_id?: string;
   admission_date?: string;
   is_active?: boolean;

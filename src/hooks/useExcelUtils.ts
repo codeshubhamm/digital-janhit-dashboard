@@ -12,10 +12,10 @@ export const useExcelUtils = () => {
       reader.onload = (e) => {
         try {
           const data = new Uint8Array(e.target?.result as ArrayBuffer);
-          const workbook = XLSX.read(data, { type: 'array' });
+          const workbook = (window as any).XLSX.read(data, { type: 'array' });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(worksheet);
+          const jsonData = (window as any).XLSX.utils.sheet_to_json(worksheet);
           resolve(jsonData);
         } catch (error) {
           reject(error);
@@ -40,7 +40,7 @@ export const useExcelUtils = () => {
         guardian_name: row['Guardian'] || row['guardian_name'] || '',
         guardian_phone: row['Guardian Phone'] || row['guardian_phone'] || '',
         address: row['Address'] || row['address'] || '',
-        course_enrolled: (row['Course'] || row['course_enrolled'] || '').toLowerCase(),
+        course_enrolled: (row['Course'] || row['course_enrolled'] || 'coding').toLowerCase(),
         admission_date: row['Admission Date'] || row['admission_date'] || new Date().toISOString().split('T')[0]
       };
 
@@ -136,12 +136,12 @@ export const useExcelUtils = () => {
         'Active': student.is_active ? 'Yes' : 'No'
       }));
 
-      const worksheet = XLSX.utils.json_to_sheet(exportData);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Students');
+      const worksheet = (window as any).XLSX.utils.json_to_sheet(exportData);
+      const workbook = (window as any).XLSX.utils.book_new();
+      (window as any).XLSX.utils.book_append_sheet(workbook, worksheet, 'Students');
 
       const fileName = filename || `students_export_${new Date().toISOString().split('T')[0]}.xlsx`;
-      XLSX.writeFile(workbook, fileName);
+      (window as any).XLSX.writeFile(workbook, fileName);
 
       // Log the export
       await supabase
@@ -175,6 +175,3 @@ export const useExcelUtils = () => {
     validateStudentData,
   };
 };
-
-// Define XLSX for TypeScript
-declare const XLSX: any;
