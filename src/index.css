@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -339,6 +338,98 @@
 
   .group-hover-3d-premium {
     @apply group-hover:transform group-hover:rotateY-3 group-hover:rotateX-3 transition-transform duration-500 ease-out;
+  }
+
+  /* Professional Typography Utilities */
+  .text-professional {
+    @apply font-medium tracking-tight leading-relaxed;
+  }
+
+  .text-heading-primary {
+    @apply text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight leading-tight;
+  }
+
+  .text-heading-secondary {
+    @apply text-xl lg:text-2xl font-semibold text-gray-800 tracking-tight leading-snug;
+  }
+
+  .text-heading-tertiary {
+    @apply text-lg lg:text-xl font-semibold text-gray-700 tracking-tight leading-snug;
+  }
+
+  .text-body-primary {
+    @apply text-base text-gray-700 leading-relaxed font-medium;
+  }
+
+  .text-body-secondary {
+    @apply text-sm text-gray-600 leading-relaxed font-medium;
+  }
+
+  .text-caption {
+    @apply text-xs text-gray-500 font-medium tracking-wide uppercase;
+  }
+
+  .text-label {
+    @apply text-sm font-semibold text-gray-700 tracking-wide;
+  }
+
+  /* Professional Layout Utilities */
+  .layout-section {
+    @apply space-y-8 p-8;
+  }
+
+  .layout-grid-professional {
+    @apply grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .layout-card-spacing {
+    @apply p-8 space-y-6;
+  }
+
+  .layout-flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .layout-flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .layout-flex-start {
+    @apply flex items-center justify-start;
+  }
+
+  /* Professional Spacing */
+  .spacing-section {
+    @apply space-y-8;
+  }
+
+  .spacing-content {
+    @apply space-y-6;
+  }
+
+  .spacing-items {
+    @apply space-y-4;
+  }
+
+  .spacing-tight {
+    @apply space-y-2;
+  }
+
+  /* Professional Borders and Shadows */
+  .border-professional {
+    @apply border border-gray-200 dark:border-gray-700;
+  }
+
+  .border-accent {
+    @apply border-2 border-blue-200 dark:border-blue-700;
+  }
+
+  .shadow-professional {
+    @apply shadow-lg shadow-gray-200/50 dark:shadow-gray-800/50;
+  }
+
+  .shadow-elevated {
+    @apply shadow-xl shadow-gray-300/30 dark:shadow-gray-900/30;
   }
 }
 
